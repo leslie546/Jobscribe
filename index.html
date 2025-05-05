@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Resume</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>AI Powered Resume & Cover Letter Builder + ATS Checker</title>
+  <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      background-color: #4a90e2;
+      color: white;
+      width: 100%;
+      padding: 12px 20px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.4rem;
+      user-select: none;
+      box-shadow: 0 2px 6px rgba(74,144,226,0.5);
+    }
+    main {
+      flex: 1;
+      max-width: 950px;
+      width: 100%;
+      padding: 15px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+
+    .tab-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 0;
+    }
+    .tab-button {
+      background: #e1e7f3;
+      border-radius: 4px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      color: #4a90e2;
+      font-weight: 600;
+      flex: 1 0 120px;
+      max-width: 180px;
+      transition: background-color 0.3s ease;
+    }
+    .tab-button.active {
+      background: #4a90e2;
+      color: white;
+      box-shadow: 0 2px 8px rgba(74, 144, 226, 0.7);
+    }
+    .tab-content {
+      background: white;
+      border-radius: 8px;
+      padding: 15px 25px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+      max-height: 650px;
+      overflow-y: auto;
+    }
+    h2 {
+      margin-top: 0;
+      color: #4a90e2;
+      font-weight: 700;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 6px 0;
+      font-weight: 600;
+    }
+    input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      font-family: inherit;
+      resize: vertical;
+    }
+    textarea {
+      min-height: 80px;
+    }
+    button {
+      background-color: #4a90e2;
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: 15px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #357ABD;
+    }
+    .section-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .section-column {
+      flex: 1 0 200px;
+      min-width: 130px;
+    }
+
+    .template-preview {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px 15px;
+      background: #fafafa;
+      cursor: pointer;
+      margin-top: 10px;
+      user-select: none;
+      transition: border-color 0.3s ease;
+    }
+    .template-preview.selected {
+      border-color: #4a90e2;
+      box-shadow: 0 0 8px #4a90e2aa;
+      background: #e8f0fe;
+    }
+    .keyword-list {
+      background: #f0f6ff;
+      padding: 10px;
+      border-radius: 4px;
+      max-height: 120px;
+      overflow-y: auto;
+      margin-top: 8px;
+    }
+    .keyword-list span {
+      background: #4a90e2;
+      color: white;
+      margin: 2px 4px 2px 0;
+      padding: 4px 8px;
+      border-radius: 16px;
+      font-size: 0.85rem;
+      display: inline-block;
+    }
+    .job-links a {
+      display: inline-block;
+      margin: 6px 8px 6px 0;
+      padding: 8px 14px;
+      background: #4a90e2;
+      color: white;
+      border-radius: 18px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+    }
+    .job-links a:hover {
+      background: #357ABD;
+    }
+
+    /* Ad banner */
+    .ad-banner {
+      background: #ffcc00;
+      color: #663300;
+      text-align: center;
+      padding: 10px 15px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin: 12px 0;
+    }
+
+    /* Responsive for mobile */
+    @media (max-width: 400px), (max-height: 600px) {
+      body, main {
+        padding: 12px 12px 25px 12px;
+      }
+      .tab-button {
+        flex: 1 0 95px;
+        font-size: 0.9rem;
+        padding: 8px 10px;
+      }
+      .tab-content {
+        max-height: 500px;
+        padding: 10px 15px;
+      }
+      input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+        font-size: 0.95rem;
+      }
+      button {
+        font-size: 0.95rem;
+        padding: 9px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    AI Powered Resume & Cover Letter Builder + ATS Checker
+  </header>
+
+  <main>
+    <div class="ad-banner" id="adBanner">Ads: Enjoy ad-free experience for just $1! <button id="btnRemoveAds" title="Support us for ad-free">Remove Ads</button></div>
+
+    <div class="tab-buttons" role="tablist" aria-label="Main features tabs">
+      <button class="tab-button active" role="tab" aria-selected="true" aria-controls="tabResume" id="tabResumeBtn">Resume & Cover Letter</button>
+      <button class="tab-button" role="tab" aria-selected="false" aria-controls="tabKeyword" id="tabKeywordBtn">Keyword Extraction</button>
+      <button class="tab-button" role="tab" aria-selected="false" aria-controls="tabATS" id="tabATSBtn">ATS Checker</button>
+      <button class="tab-button" role="tab" aria-selected="false" aria-controls="tabJobs" id="tabJobsBtn">Job Suggestions</button>
+      <button class="tab-button" role="tab" aria-selected="false" aria-controls="tabFiles" id="tabFilesBtn">File Tools</button>
+      <button class="tab-button" role="tab" aria-selected="false" aria-controls="tabScan" id="tabScanBtn">Document Scanner</button>
+    </div>
+
+    <section id="tabResume" class="tab-content" role="tabpanel" aria-labelledby="tabResumeBtn" tabindex="0">
+      <h2>Resume & Cover Letter Builder</h2>
+      <p>Select a template and fill in your information to generate a beautiful resume or cover letter.</p>
+
+      <label for="templateSelect">Choose Template:</label>
+      <div id="templateList" role="list" aria-label="Resume Templates">
+        <div class="template-preview selected" role="listitem" tabindex="0" data-template="professional" aria-pressed="true">Professional</div>
+        <div class="template-preview" role="listitem" tabindex="0" data-template="creative" aria-pressed="false">Creative</div>
+        <div class="template-preview" role="listitem" tabindex="0" data-template="minimalist" aria-pressed="false">Minimalist</div>
+        <div class="template-preview" role="listitem" tabindex="0" data-template="corporate" aria-pressed="false">Corporate</div>
+      </div>
+
+      <form id="resumeForm" aria-label="Resume and Cover Letter form">
+        <div class="section-row">
+          <div class="section-column">
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" required placeholder="John Doe" />
+          </div>
+          <div class="section-column">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" required placeholder="john.doe@example.com" />
+          </div>
+        </div>
+
+        <div class="section-row">
+          <div class="section-column">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="+1 555 123 4567" />
+          </div>
+          <div class="section-column">
+            <label for="jobtitle">Job Title</label>
+            <input type="text" id="jobtitle" placeholder="Software Engineer" />
+          </div>
+        </div>
+
+        <label for="summary">Professional Summary</label>
+        <textarea id="summary" placeholder="Brief summary about your professional background..."></textarea>
+
+        <label for="experience">Work Experience (Brief, separate jobs by line)</label>
+        <textarea id="experience" placeholder="Company, role, dates, achievements"></textarea>
+
+        <label for="education">Education (Brief)</label>
+        <textarea id="education" placeholder="School, degree, dates"></textarea>
+
+        <label for="skills">Skills (comma separated)</label>
+        <input type="text" id="skills" placeholder="JavaScript, Python, Git, Leadership" />
+
+        <label for="additional">Additional Information (Certifications, Awards, etc.)</label>
+        <textarea id="additional" placeholder="Certifications, Awards, Languages..."></textarea>
+
+        <label for="coverLetter">Cover Letter (optional)</label>
+        <textarea id="coverLetter" placeholder="Write your cover letter here..."></textarea>
+
+        <button type="button" id="btnGenerateResume">Generate PDF</button>
+      </form>
+
+      <div id="resumePreview" aria-live="polite" style="margin-top: 15px;"></div>
+    </section>
+
+    <section id="tabKeyword" class="tab-content" role="tabpanel" aria-labelledby="tabKeywordBtn" hidden tabindex="0">
+      <h2>Keyword Extraction from Job Description</h2>
+      <p>Paste a job description below and extract important keywords to include in your resume.</p>
+      <textarea id="jobDescInput" placeholder="Paste job description here..." aria-label="Job Description for keyword extraction"></textarea>
+      <button id="btnExtractKeywords">Extract Keywords</button>
+      <div class="keyword-list" id="keywordsOutput" aria-live="polite"></div>
+    </section>
+
+    <section id="tabATS" class="tab-content" role="tabpanel" aria-labelledby="tabATSBtn" hidden tabindex="0">
+      <h2>ATS Compatibility Checker</h2>
+      <p>Paste your resume text and check for common ATS issues and keyword presence.</p>
+      <textarea id="atsResumeInput" placeholder="Paste your resume text here..." aria-label="Resume text for ATS check"></textarea>
+      <label for="atsKeywordsInput">Keywords to check for (comma separated):</label>
+      <input type="text" id="atsKeywordsInput" placeholder="JavaScript, Python, Leadership" />
+      <button id="btnCheckATS">Check ATS Compatibility</button>
+      <div id="atsReport" aria-live="polite" style="margin-top:10px;"></div>
+    </section>
+
+    <section id="tabJobs" class="tab-content" role="tabpanel" aria-labelledby="tabJobsBtn" hidden tabindex="0">
+      <h2>Job Suggestions</h2>
+      <p>Based on your intended job title or keywords, get quick links to job listings on major job sites.</p>
+      <label for="jobSuggestionInput">Enter Job Title or Keywords:</label>
+      <input type="text" id="jobSuggestionInput" placeholder="Software Engineer, Marketing Manager..." />
+      <button id="btnFindJobs">Find Jobs</button>
+      <div class="job-links" id="jobLinksOutput" aria-live="polite" style="margin-top: 12px;"></div>
+    </section>
+
+    <section id="tabFiles" class="tab-content" role="tabpanel" aria-labelledby="tabFilesBtn" hidden tabindex="0">
+      <h2>File Converter & Compressor</h2>
+      <p>Convert and compress your files quickly right here.</p>
+      <label for="fileInput">Select file (PDF, Image):</label>
+      <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg" />
+      <div style="margin-top:10px;">
+        <button id="btnCompressFile" disabled>Compress File (Images & PDFs)</button>
+        <button id="btnConvertToPDF" disabled>Convert Image to PDF</button>
+      </div>
+      <div id="fileOutput" style="margin-top: 15px;"></div>
+    </section>
+
+    <section id="tabScan" class="tab-content" role="tabpanel" aria-labelledby="tabScanBtn" hidden tabindex="0">
+      <h2>Document Scanner</h2>
+      <p>Use your camera to scan documents and save as PDF.</p>
+      <video id="video" width="320" height="240" autoplay muted></video><br/>
+      <button id="btnStartScan">Start Camera</button>
+      <button id="btnCapture" disabled>Capture & Download PDF</button>
+      <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+      <div id="scanOutput" style="margin-top:15px;"></div>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/compressorjs@1.1.1/dist/compressor.min.js"></script>
+  <script>
+    const { jsPDF } = window.jspdf;
+    // Tab navigation logic
+    const tabs = document.querySelectorAll('.tab-button');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+          document.getElementById(t.getAttribute('aria-controls')).hidden = true;
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        document.getElementById(tab.getAttribute('aria-controls')).hidden = false;
+        document.getElementById(tab.getAttribute('aria-controls')).focus();
+      });
+    });
+
+    // Template selection highlight
+    const templateElements = document.querySelectorAll('.template-preview');
+    let selectedTemplate = 'professional';
+
+    templateElements.forEach(el => {
+      el.addEventListener('click', () => {
+        templateElements.forEach(t => {
+          t.classList.remove('selected');
+          t.setAttribute('aria-pressed', 'false');
+        });
+        el.classList.add('selected');
+        el.setAttribute('aria-pressed', 'true');
+        selectedTemplate = el.getAttribute('data-template');
+      });
+      el.addEventListener('keydown', e => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          el.click();
+        }
+      });
+    });
+
+    const adBanner = document.getElementById('adBanner');
+    const btnRemoveAds = document.getElementById('btnRemoveAds');
+
+    function isAdFreeUser() {
+      return localStorage.getItem('adFreeUser') === 'true';
+    }
+    function updateAdVisibility() {
+      if (isAdFreeUser()) {
+        adBanner.style.display = 'none';
+      } else {
+        adBanner.style.display = 'block';
+      }
+    }
+    btnRemoveAds.addEventListener('click', () => {
+      // Simulate payment success
+      if (confirm('Pay $1 to remove ads? (Simulated payment)')) {
+        localStorage.setItem('adFreeUser', 'true');
+        updateAdVisibility();
+        alert('Thank you for your support! Ads removed.');
+      }
+    });
+    updateAdVisibility();
+
+    // Resume & Cover Letter PDF generation
+    document.getElementById('btnGenerateResume').addEventListener('click', () => {
+      const fullname = document.getElementById('fullname').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const jobTitle = document.getElementById('jobtitle').value.trim();
+      const summary = document.getElementById('summary').value.trim();
+      const experience = document.getElementById('experience').value.trim();
+      const education = document.getElementById('education').value.trim();
+      const skills = document.getElementById('skills').value.trim();
+      const additional = document.getElementById('additional').value.trim();
+      const coverLetter = document.getElementById('coverLetter').value.trim();
+
+      if (!fullname || !email) {
+        alert('Please enter at least your full name and email.');
+        return;
+      }
+
+      const doc = new jsPDF();
+
+      // Define some basic styling for templates
+      function addHeader(text) {
+        doc.setFontSize(20);
+        doc.setTextColor("#4a90e2");
+        doc.setFont("helvetica", "bold");
+        doc.text(text, 15, 20);
+        doc.setDrawColor(74,144,226);
+        doc.setLineWidth(0.5);
+        doc.line(15, 22, 195, 22);
+        doc.setTextColor("#333");
+        doc.setFontSize(12);
+      }
+      // Reset y to current vertical position
+      let y = 30;
+
+      // Render resume or cover letter based on selected template
+      if (selectedTemplate === 'professional') {
+        addHeader(fullname);
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "normal");
+        doc.text(email + (phone ? ' | ' + phone : ''), 15, y);
+        y += 10;
+        if(jobTitle) {
+          doc.setFont("helvetica", "bold");
+          doc.setTextColor("#4a90e2");
+          doc.text(jobTitle, 15, y);
+          doc.setFont("helvetica", "normal");
+          doc.setTextColor("#333");
+          y += 12;
+        }
+        if (summary) {
+          doc.setFont("helvetica", "bold");
+          doc.text("Professional Summary", 15, y);
+          y += 8;
+          doc.setFont("helvetica", "normal");
+          const splitSummary = doc.splitTextToSize(summary, 180);
+          doc.text(splitSummary, 15, y);
+          y += splitSummary.length * 7 + 5;
+        }
+        if (experience) {
+          doc.setFont("helvetica", "bold");
+          doc.text("Work Experience", 15, y);
+          y += 8;
+          doc.setFont("helvetica", "normal");
+          const expLines = experience.split('\n');
+          expLines.forEach(item => {
+            const splitExp = doc.splitTextToSize(item.trim(), 180);
+            doc.text(splitExp, 15, y);
+            y += splitExp.length * 7 + 2;
+          });
+          y += 5;
+        }
+        if (education) {
+          doc.setFont("helvetica", "bold");
+          doc.text("Education", 15, y);
+          y += 8;
+          doc.setFont("helvetica", "normal");
+          const eduLines = education.split('\n');
+          eduLines.forEach(item => {
+            const splitEdu = doc.splitTextToSize(item.trim(), 180);
+            doc.text(splitEdu, 15, y);
+            y += splitEdu.length * 7 + 2;
+          });
+          y += 5;
+        }
+        if (skills) {
+          doc.setFont("helvetica", "bold");
+          doc.text("Skills", 15, y);
+          y += 8;
+          doc.setFont("helvetica", "normal");
+          const skillList = skills.split(',');
+          doc.text(skillList.map(s => s.trim()).join(', '), 15, y);
+          y += 12;
+        }
+        if (additional) {
+          doc.setFont("helvetica", "bold");
+          doc.text("Additional Information", 15, y);
+          y += 8;
+          doc.setFont("helvetica", "normal");
+          const addLines = additional.split('\n');
+          addLines.forEach(item => {
+            const splitAdd = doc.splitTextToSize(item.trim(), 180);
+            doc.text(splitAdd, 15, y);
+            y += splitAdd.length * 7 + 2;
+          });
+          y += 5;
+        }
+        if (coverLetter) {
+          doc.addPage();
+          addHeader(fullname + " - Cover Letter");
+          y = 30;
+          const coverLines = doc.splitTextToSize(coverLetter, 180);
+          doc.setFont("helvetica", "normal");
+          doc.text(coverLines, 15, y);
+          y += coverLines.length * 7 + 5;
+        }
+      } else if (selectedTemplate === 'creative') {
+        // Creative template with color and simple design
+        doc.setFillColor(74,144,226);
+        doc.rect(0, 0, 210, 30, 'F'); // header block
+        doc.setTextColor("#fff");
+        doc.setFontSize(22);
+        doc.setFont("helvetica", "bold");
+        doc.text(fullname, 15, 20);
+        doc.setFontSize(12);
+        doc.text(email + (phone ? ' | ' + phone : ''), 15, 27);
+        y = 40;
+        doc.setTextColor("#333");
+        doc.setFontSize(11);
+        if (jobTitle) {
+          doc.setFont("helvetica", "bold");
+          doc.text(jobTitle, 15, y);
+          y += 10;
+        }
+        doc.setFont("helvetica", "normal");
+        if (summary) {
+          doc.setFont("helvetica", "bold");
+          doc.text("Summary", 15, y);
+          y += 7;
+          doc.setFont("helvetica", "normal");
+          const summarySplit = doc.splitTextToSize(summary, 180);
+          doc.text(summarySplit, 15, y);
+          y += summarySplit.length * 7 + 5;
+        }
+        if (experience) {
+          doc.setFont("helvetica", "bold");
+          doc.text("Experience", 15, y);
+          y += 7;
+          const expLines = experience.split('\n');
+          expLines.forEach(item => {
+            const splitExp = doc.splitTextToSize(item.trim(), 180);
+            doc.text(splitExp, 15, y);
+            y += splitExp.length * 7 + 2;
+          });
+          y += 5;
+        }
+        if (skills) {
+          doc.setFont("helvetica", "bold");
+          doc.text("Skills", 15, y);
+          y += 7;
+          const skillList = skills.split(',');
+          doc.setFont("helvetica", "normal");
+          doc.text(skillList.map(s => s.trim()).join(', '), 15, y);
+          y += 12;
+        }
+        // No cover letter page for creative in this basic demo
+      } else if (selectedTemplate === 'minimalist') {
+        doc.setFontSize(18);
+        doc.setFont("times", "bolditalic");
+        doc.text(fullname, 15, 20);
+        doc.setFontSize(10);
+        doc.setFont("times", "normal");
+        if (email || phone) {
+          doc.text([email, phone].filter(Boolean).join(' | '), 15, 26);
+        }
+        y = 36;
+        if (jobTitle) {
+          doc.setFont("times", "italic");
+          doc.text(jobTitle, 15, y);
+          y += 10;
+          doc.setFont("times", "normal");
+        }
+        if (summary) {
+          doc.setFont("times", "bold");
+          doc.text("Summary", 15, y);
+          y += 7;
+          doc.setFont("times", "normal");
+          const summarySplit = doc.splitTextToSize(summary, 180);
+          doc.text(summarySplit, 15, y);
+          y += summarySplit.length * 7 + 5;
+        }
+        if (experience) {
+          doc.setFont("times", "bold");
+          doc.text("Experience", 15, y);
+          y += 7;
+          const expLines = experience.split('\n');
+          expLines.forEach(item => {
+            const splitExp = doc.splitTextToSize(item.trim(), 180);
+            doc.text(splitExp, 15, y);
+            y += splitExp.length * 7 + 2;
+          });
+          y += 5;
+        }
+        if (education) {
+          doc.setFont("times", "bold");
+          doc.text("Education", 15, y);
+          y += 7;
+          const eduLines = education.split('\n');
+          eduLines.forEach(item => {
+            const splitEdu = doc.splitTextToSize(item.trim(), 180);
+            doc.text(splitEdu, 15, y);
+            y += splitEdu.length * 7 + 2;
+          });
+          y += 5;
+        }
+      } else if (selectedTemplate === 'corporate') {
+        // Corporate Template: blue side bar and headings
+        doc.setFillColor(74,144,226);
+        doc.rect(0, 0, 50, 297, 'F');
+        doc.setDrawColor(74,144,226);
+        doc.setFillColor(255,255,255);
+        doc.rect(50, 0, 160, 297, 'F');
+
+        doc.setTextColor("#4a90e2");
+        doc.setFontSize(20);
+        doc.setFont("helvetica", "bold");
+        doc.text(fullname, 60, 25);
+        doc.setFontSize(12);
+        doc.text(email + (phone ? ' | ' + phone : ''), 60, 35);
+        y = 50;
+        doc.setFont("helvetica", "bold");
+        doc.text("Profile", 60, y);
+        y+=10;
+        doc.setFont("helvetica", "normal");
+        if(summary) {
+          const summarySplit = doc.splitTextToSize(summary, 150);
+          doc.text(summarySplit, 60, y);
+          y += summarySplit.length * 7 + 10;
+        }
+        if (experience) {
+          doc.setFont("helvetica", "bold");
+          doc.text("Experience", 60, y);
+          y+=10;
+          doc.setFont("helvetica", "normal");
+          const expLines = experience.split('\n');
+          expLines.forEach(item => {
+            const splitExp = doc.splitTextToSize(item.trim(), 150);
+            doc.text(splitExp, 60, y);
+            y += splitExp.length * 7 + 2;
+          });
+          y += 10;
+        }
+        if(education) {
+          doc.setFont("helvetica", "bold");
+          doc.text("Education", 60, y);
+          y += 10;
+          doc.setFont("helvetica", "normal");
+          const eduLines = education.split('\n');
+          eduLines.forEach(item => {
+            const splitEdu = doc.splitTextToSize(item.trim(), 150);
+            doc.text(splitEdu, 60, y);
+            y += splitEdu.length * 7 + 2;
+          });
+          y += 10;
+        }
+        if(skills) {
+          doc.setFont("helvetica", "bold");
+          doc.text("Skills", 60, y);
+          y += 10;
+          doc.setFont("helvetica", "normal");
+          const skillList = skills.split(',');
+          doc.text(skillList.map(s => s.trim()).join(', '), 60, y);
+          y += 10;
+        }
+      }
+
+      doc.save(fullname.replace(/\s+/g, "_") + "_Resume.pdf");
+    });
+
+    // Keyword extraction: basic JS method - frequency of words excluding stopwords
+    const stopwords = new Set([
+      "the","and","to","of","a","in","for","with","on","that","is","as","are","we","be","this","or",
+      "an","by","from","at","it","will","you","your","our","have","has","not","can","more","but",
+      "if","they","their","job","candidate","position","role","skills","we're","should"
+    ]);
+
+    function extractKeywords(text) {
+      let wordCounts = {};
+      let words = text
+        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(w => w.length > 2 && !stopwords.has(w));
+
+      words.forEach(word => {
+        wordCounts[word] = (wordCounts[word] || 0) + 1;
+      });
+      // Sort by frequency descending
+      const sorted = Object.entries(wordCounts)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0, 20)
+        .map(e => e[0]);
+
+      return sorted;
+    }
+
+    document.getElementById('btnExtractKeywords').addEventListener('click', () => {
+      const jobDesc = document.getElementById('jobDescInput').value.trim();
+      if (!jobDesc) {
+        alert("Please paste a job description.");
+        return;
+      }
+      const keywords = extractKeywords(jobDesc);
+      const kwDiv = document.getElementById('keywordsOutput');
+      kwDiv.innerHTML = '';
+      if (keywords.length === 0) {
+        kwDiv.textContent = "No significant keywords found.";
+        return;
+      }
+      keywords.forEach(kw => {
+        const span = document.createElement('span');
+        span.textContent = kw;
+        kwDiv.appendChild(span);
+      });
+    });
+
+    // ATS Checker
+    document.getElementById('btnCheckATS').addEventListener('click', () => {
+      const resumeText = document.getElementById('atsResumeInput').value.toLowerCase();
+      const keywordsInput = document.getElementById('atsKeywordsInput').value.toLowerCase();
+      if (!resumeText) {
+        alert('Please paste your resume text.');
+        return;
+      }
+      if (!keywordsInput) {
+        alert('Please enter keywords to check for.');
+        return;
+      }
+      const keywords = keywordsInput.split(',').map(k => k.trim()).filter(k => k.length > 0);
+
+      let reportHTML = '';
+      keywords.forEach(kw => {
+        if (resumeText.includes(kw)) {
+          reportHTML += `<p style="color:green;">&#10004; Keyword <b>${kw}</b> found in resume.</p>`;
+        } else {
+          reportHTML += `<p style="color:#d9534f;">&#10008; Keyword <b>${kw}</b> NOT found in resume. Consider adding it.</p>`;
+        }
+      });
+
+      // Basic check for bullet lists, simple formatting
+      if (!/\u2022|\*/.test(resumeText)) {
+        reportHTML += `<p style="color:#f0ad4e;">⚠️ Your resume might not use bullet points. Consider using them for better ATS parsing.</p>`;
+      } else {
+        reportHTML += `<p style="color:green;">&#10004; Bullet points detected.</p>`;
+      }
+
+      document.getElementById('atsReport').innerHTML = reportHTML;
+    });
+
+    // Job suggestions
+    document.getElementById('btnFindJobs').addEventListener('click', () => {
+      const query = document.getElementById('jobSuggestionInput').value.trim();
+      const output = document.getElementById('jobLinksOutput');
+      output.innerHTML = '';
+      if (!query) {
+        alert("Please enter job title or keywords.");
+        return;
+      }
+      const encodedQuery = encodeURIComponent(query);
+      const sites = [
+        {name: 'Indeed', url: `https://www.indeed.com/jobs?q=${encodedQuery}`},
+        {name: 'LinkedIn', url: `https://www.linkedin.com/jobs/search?keywords=${encodedQuery}`},
+        {name: 'Glassdoor', url: `https://www.glassdoor.com/Job/jobs.htm?sc.keyword=${encodedQuery}`},
+        {name: 'Monster', url:`https://www.monster.com/jobs/search/?q=${encodedQuery}`},
+        {name: 'SimplyHired', url:`https://www.simplyhired.com/search?q=${encodedQuery}`}
+      ];
+      sites.forEach(site => {
+        const a = document.createElement('a');
+        a.href = site.url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = site.name;
+        output.appendChild(a);
+      });
+    });
+
+    // File converter & compressor
+    let inputFile = null;
+    const fileInputElem = document.getElementById('fileInput');
+    const btnCompressFile = document.getElementById('btnCompressFile');
+    const btnConvertToPDF = document.getElementById('btnConvertToPDF');
+    const fileOutput = document.getElementById('fileOutput');
+
+    fileInputElem.addEventListener('change', e => {
+      if(e.target.files.length === 0) {
+        inputFile = null;
+        btnCompressFile.disabled = true;
+        btnConvertToPDF.disabled = true;
+        fileOutput.innerHTML = '';
+        return;
+      }
+      const file = e.target.files[0];
+      inputFile = file;
+
+      if(file.type.startsWith('image/')) {
+        btnCompressFile.disabled = false;
+        btnConvertToPDF.disabled = false;
+      } else if (file.type === 'application/pdf') {
+        btnCompressFile.disabled = false;
+        btnConvertToPDF.disabled = true;
+      } else {
+        btnCompressFile.disabled = true;
+        btnConvertToPDF.disabled = true;
+      }
+      fileOutput.innerHTML = `Selected file: <strong>${file.name}</strong> (${Math.round(file.size/1024)} KB)`;
+    });
+
+    btnCompressFile.addEventListener('click', () => {
+      if (!inputFile) return;
+      fileOutput.innerHTML = 'Compressing...';
+      if (inputFile.type.startsWith('image/')) {
+        new Compressor(inputFile, {
+          quality: 0.6,
+          maxWidth: 1200,
+          maxHeight: 1200,
+          success(result) {
+            const url = URL.createObjectURL(result);
+            fileOutput.innerHTML = `
+              Compressed image size: <strong>${Math.round(result.size/1024)} KB</strong>
+              <br/><img src="${url}" alt="Compressed Image Preview" style="max-width:250px;max-height:250px;border:1px solid #ccc;margin-top:8px;">
+              <br/><a href="${url}" download="compressed_${inputFile.name}">Download Compressed Image</a>`;
+          },
+          error(err) {
+            fileOutput.textContent = 'Error compressing image: ' + err.message;
+          }
+        });
+      } else if (inputFile.type === 'application/pdf') {
+        // PDF compression client-side is complex; provide notice
+        fileOutput.innerHTML = 'PDF compression is not supported in this demo.';
+      }
+    });
+
+    btnConvertToPDF.addEventListener('click', () => {
+      if (!inputFile || !inputFile.type.startsWith('image/')) return;
+      fileOutput.innerHTML = 'Converting image to PDF...';
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+          const pdf = new jsPDF();
+          let width = img.width;
+          let height = img.height;
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          const pageHeight = pdf.internal.pageSize.getHeight();
+          // Scale image to fit page
+          const ratio = Math.min(pageWidth / width, pageHeight / height);
+          width *= ratio;
+          height *= ratio;
+          pdf.addImage(img, 'JPEG', (pageWidth - width) / 2, 10, width, height);
+          pdf.save(inputFile.name.replace(/\.[^.]+$/, '') + '_converted.pdf');
+          fileOutput.innerHTML = 'Conversion complete.';
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(inputFile);
+    });
+
+    // Document Scanner with webcam and canvas, download capture as PDF
+    const videoElem = document.getElementById('video');
+    const btnStartScan = document.getElementById('btnStartScan');
+    const btnCapture = document.getElementById('btnCapture');
+    const canvas = document.getElementById('canvas');
+    const scanOutput = document.getElementById('scanOutput');
+    let stream = null;
+
+    btnStartScan.addEventListener('click', async () => {
+      if(stream) {
+        // Stop stream
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+        videoElem.style.display = 'none';
+        btnCapture.disabled = true;
+        btnStartScan.textContent = "Start Camera";
+        scanOutput.textContent = 'Camera stopped.';
+      } else {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({video: { facingMode: "environment" }});
+          videoElem.srcObject = stream;
+          videoElem.style.display = 'block';
+          btnCapture.disabled = false;
+          btnStartScan.textContent = "Stop Camera";
+          scanOutput.textContent = 'Camera started.';
+        } catch (err) {
+          alert('Error accessing camera: ' + err.message);
+        }
+      }
+    });
+
+    btnCapture.addEventListener('click', () => {
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(videoElem, 0, 0, canvas.width, canvas.height);
+      const dataURL = canvas.toDataURL('image/jpeg', 1.0);
+      // Generate PDF with image
+      const pdf = new jsPDF();
+      pdf.addImage(dataURL, 'JPEG', 15, 15, 180, 135);
+      pdf.save('scanned_document.pdf');
+      scanOutput.textContent = 'Document captured and PDF downloaded.';
+    });
+
+  </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
